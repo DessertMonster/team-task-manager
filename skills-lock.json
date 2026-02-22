@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "aws-cdk-development": {
+      "source": "zxkane/aws-skills",
+      "sourceType": "github",
+      "computedHash": "53e82fc1181cb1115673e99cdd4e4735960e4b68836d2dab9dc399884bce771d"
+    },
+    "aws-well-architected-framework": {
+      "source": "rameshvr/aws-well-architected-framework-skill",
+      "sourceType": "github",
+      "computedHash": "71102e822f4ebd227dbe4ed2f985da4a1013ad15b4f8d6c7eb2d58fb5ea915f9"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "4365be772fd3b41994a72ad478472c6d680678e7f3859860ab010e9c46e48ee0"
+    }
+  }
+}

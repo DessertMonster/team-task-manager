@@ -31,7 +31,25 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] **Simplicity First**: Scope is limited to the minimum viable increment and
+      any added complexity is documented in `Complexity Tracking`.
+- [ ] **UX Over Feature Count**: Acceptance scenarios prove user value without
+      adding avoidable friction to core flows.
+- [ ] **Security by Design**: Threats for authentication, authorization, input
+      validation, and OWASP Top 10 are addressed up front.
+- [ ] **Performance Budgets**: Plan enforces p95 targets (interactive <1s, page
+      load <2s, API <500ms) with explicit measurement approach.
+- [ ] **Mobile-Friendly Web**: UI behavior is defined for small and large
+      screens in one responsive web experience.
+- [ ] **Maintainability by Feature**: Source structure groups code by feature
+      slice; each slice contains related UI/API/domain/tests and avoids
+      layer-first global trees unless an exception is tracked.
+- [ ] **Technical Constraints**: Stack remains Lambda Node.js 24.12.0 +
+      TypeScript, React + TypeScript, PostgreSQL + Prisma, Cognito, and CDK
+      TypeScript unless a tracked exception is approved.
+- [ ] **Quality Standards**: Test strategy includes unit tests (>=80% business
+      logic coverage), integration tests for all API endpoints, and end-to-end
+      tests for critical flows.
 
 ## Project Structure
 
@@ -56,36 +74,44 @@ specs/[###-feature]/
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT, feature-first)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── features/
+│   ├── <feature-a>/
+│   │   ├── api/
+│   │   ├── domain/
+│   │   ├── data/
+│   │   └── ui/
+│   └── <feature-b>/
+└── shared/
+    ├── utils/
+    └── platform/
 
 tests/
 ├── contract/
 ├── integration/
 └── unit/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+# [REMOVE IF UNUSED] Option 2: Web application (feature-first)
 backend/
 ├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
+│   ├── features/
+│   │   ├── <feature-a>/
+│   │   └── <feature-b>/
+│   └── shared/
 └── tests/
 
 frontend/
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
+│   ├── features/
+│   │   ├── <feature-a>/
+│   │   └── <feature-b>/
+│   └── shared/
 └── tests/
 
 # [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
 api/
-└── [same as backend above]
+└── [same feature-first pattern as backend above]
 
 ios/ or android/
 └── [platform-specific structure: feature modules, UI flows, platform tests]

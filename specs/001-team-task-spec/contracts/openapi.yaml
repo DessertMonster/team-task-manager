@@ -1,0 +1,546 @@
+openapi: 3.0.3
+info:
+  title: Team Task Manager API
+  version: 0.3.0
+  description: API contract for feature 001-team-task-spec with prefixed CUID identifiers.
+servers:
+  - url: https://api.example.com
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Auth
+  - name: Teams
+  - name: Invitations
+  - name: Tasks
+
+paths:
+  /v1/health:
+    get:
+      tags: [Auth]
+      summary: Health check endpoint for deployment smoke validation
+      security: []
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201': { description: Registration accepted }
+
+  /v1/auth/verify:
+    post:
+      tags: [Auth]
+      summary: Verify account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyRequest'
+      responses:
+        '200': { description: Verification complete }
+
+  /v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authenticated session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '401': { description: Unauthorized }
+        '429': { description: Login throttled }
+
+  /v1/auth/password-reset/request:
+    post:
+      tags: [Auth]
+      summary: Request reset token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+      responses:
+        '202': { description: Request accepted }
+
+  /v1/auth/password-reset/confirm:
+    post:
+      tags: [Auth]
+      summary: Confirm reset token and set password
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirmRequest'
+      responses:
+        '200': { description: Password updated }
+        '400': { description: Invalid or expired token }
+
+  /v1/teams:
+    post:
+      tags: [Teams]
+      summary: Create team
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeamRequest'
+      responses:
+        '201':
+          description: Team created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '409': { description: Global team name conflict }
+
+  /v1/teams/{teamId}/invitations:
+    post:
+      tags: [Invitations]
+      summary: Create invitation (delivery may be async)
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvitationRequest'
+      responses:
+        '201':
+          description: Invitation created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+
+    get:
+      tags: [Invitations]
+      summary: List invitations including delivery status
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      responses:
+        '200':
+          description: Invitation list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+
+  /v1/teams/{teamId}/invitations/{invitationId}/retry-delivery:
+    post:
+      tags: [Invitations]
+      summary: Retry failed invitation delivery
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - $ref: '#/components/parameters/InvitationId'
+      responses:
+        '202': { description: Retry queued }
+        '409': { description: Retry not allowed in current status }
+
+  /v1/invitations/{invitationId}/accept:
+    post:
+      tags: [Invitations]
+      summary: Accept invitation
+      parameters:
+        - $ref: '#/components/parameters/InvitationId'
+      responses:
+        '200': { description: Invitation accepted }
+        '410': { description: Invitation expired }
+
+  /v1/teams/{teamId}/members/{userId}:
+    delete:
+      tags: [Teams]
+      summary: Remove team member
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204': { description: Member removed }
+        '403': { description: Forbidden }
+
+  /v1/teams/{teamId}/ownership-transfer:
+    post:
+      tags: [Teams]
+      summary: Transfer ownership
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnershipTransferRequest'
+      responses:
+        '200': { description: Ownership transferred }
+
+  /v1/teams/{teamId}/tasks:
+    get:
+      tags: [Tasks]
+      summary: List active tasks
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - name: assigneeId
+          in: query
+          schema: { $ref: '#/components/schemas/UserId' }
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, in_progress, completed]
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200':
+          description: Active tasks only (deleted excluded)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListResponse'
+
+    post:
+      tags: [Tasks]
+      summary: Create task
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /v1/teams/{teamId}/tasks/deleted:
+    get:
+      tags: [Tasks]
+      summary: List recently deleted tasks for restore
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200':
+          description: Deleted tasks within restore window
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListResponse'
+
+  /v1/teams/{teamId}/tasks/{taskId}:
+    patch:
+      tags: [Tasks]
+      summary: Update task
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '409': { description: Stale version conflict }
+
+    delete:
+      tags: [Tasks]
+      summary: Soft delete task
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204': { description: Task soft deleted }
+
+  /v1/teams/{teamId}/tasks/{taskId}/restore:
+    post:
+      tags: [Tasks]
+      summary: Restore soft-deleted task
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Task restored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '410': { description: Restore window expired }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    TeamId:
+      name: teamId
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/TeamId' }
+    TaskId:
+      name: taskId
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/TaskId' }
+    InvitationId:
+      name: invitationId
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/InvitationId' }
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/UserId' }
+
+  schemas:
+    UserId:
+      type: string
+      pattern: '^usr_[a-z0-9]+$'
+      example: 'usr_ckx1h9sd0001abc123def45g'
+
+    TeamId:
+      type: string
+      pattern: '^team_[a-z0-9]+$'
+      example: 'team_ckx1h9sd0002abc123def45g'
+
+    InvitationId:
+      type: string
+      pattern: '^inv_[a-z0-9]+$'
+      example: 'inv_ckx1h9sd0003abc123def45g'
+
+    TaskId:
+      type: string
+      pattern: '^task_[a-z0-9]+$'
+      example: 'task_ckx1h9sd0004abc123def45g'
+
+    RegisterRequest:
+      type: object
+      required: [email, password, displayName, timezone]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+        displayName: { type: string, minLength: 1, maxLength: 120 }
+        timezone: { type: string, example: 'America/Los_Angeles' }
+
+    VerifyRequest:
+      type: object
+      required: [verificationCode]
+      properties:
+        verificationCode: { type: string }
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+
+    SessionResponse:
+      type: object
+      required: [accessToken, expiresIn]
+      properties:
+        accessToken: { type: string }
+        expiresIn: { type: integer }
+
+    PasswordResetRequest:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string, format: email }
+
+    PasswordResetConfirmRequest:
+      type: object
+      required: [token, newPassword]
+      properties:
+        token: { type: string }
+        newPassword: { type: string, minLength: 8 }
+
+    Team:
+      type: object
+      required: [id, name, ownerUserId, createdAt, updatedAt]
+      properties:
+        id: { $ref: '#/components/schemas/TeamId' }
+        name: { type: string }
+        ownerUserId: { $ref: '#/components/schemas/UserId' }
+        createdAt: { type: string, format: date-time, description: UTC timestamp }
+        updatedAt: { type: string, format: date-time, description: UTC timestamp }
+
+    CreateTeamRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+
+    OwnershipTransferRequest:
+      type: object
+      required: [newOwnerUserId, confirmation]
+      properties:
+        newOwnerUserId: { $ref: '#/components/schemas/UserId' }
+        confirmation:
+          type: boolean
+          enum: [true]
+
+    Invitation:
+      type: object
+      required: [id, teamId, email, status, deliveryStatus, expiresAt, createdAt]
+      properties:
+        id: { $ref: '#/components/schemas/InvitationId' }
+        teamId: { $ref: '#/components/schemas/TeamId' }
+        email: { type: string, format: email }
+        status:
+          type: string
+          enum: [pending, accepted, expired, revoked]
+        deliveryStatus:
+          type: string
+          enum: [queued, sent, failed]
+        deliveryAttempts: { type: integer, minimum: 0 }
+        lastDeliveryAttemptAt: { type: string, format: date-time, nullable: true }
+        expiresAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+
+    CreateInvitationRequest:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string, format: email }
+
+    Task:
+      type: object
+      required: [id, teamId, title, status, createdByUserId, version, createdAt, updatedAt]
+      properties:
+        id: { $ref: '#/components/schemas/TaskId' }
+        teamId: { $ref: '#/components/schemas/TeamId' }
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 5000, nullable: true }
+        status:
+          type: string
+          enum: [open, in_progress, completed]
+        createdByUserId: { $ref: '#/components/schemas/UserId' }
+        assignedToUserId:
+          allOf:
+            - $ref: '#/components/schemas/UserId'
+          nullable: true
+        dueDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Stored in UTC; displayed in user local timezone
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Stored in UTC; displayed in user local timezone
+        deletedAt: { type: string, format: date-time, nullable: true }
+        version: { type: integer, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateTaskRequest:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 5000 }
+        assignedToUserId:
+          allOf:
+            - $ref: '#/components/schemas/UserId'
+        dueDate:
+          type: string
+          format: date-time
+          description: Client may send local time with offset; server stores UTC
+
+    UpdateTaskRequest:
+      type: object
+      required: [version]
+      properties:
+        version: { type: integer, minimum: 1 }
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 5000, nullable: true }
+        status:
+          type: string
+          enum: [open, in_progress, completed]
+        assignedToUserId:
+          allOf:
+            - $ref: '#/components/schemas/UserId'
+          nullable: true
+        dueDate: { type: string, format: date-time, nullable: true }
+
+    TaskListResponse:
+      type: object
+      required: [items, page, pageSize, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        page: { type: integer }
+        pageSize: { type: integer }
+        total: { type: integer }

@@ -1,0 +1,54 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js dependencies and package manager artifacts
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build and runtime outputs
+dist/
+build/
+out/
+coverage/
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# Logs and debug files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Test and tooling outputs
+playwright-report/
+test-results/
+.nyc_output/
+
+# AWS / infrastructure artifacts
+cdk.out/
+.aws-sam/
+
+# Database local artifacts
+*.sqlite
+*.sqlite3
+*.db

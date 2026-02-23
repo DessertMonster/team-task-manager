@@ -80,8 +80,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SessionResponse'
-        '401': { description: Unauthorized }
-        '429': { description: Login throttled }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/ThrottledError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/auth/password-reset/request:
     post:
@@ -96,6 +102,10 @@ paths:
               $ref: '#/components/schemas/PasswordResetRequest'
       responses:
         '202': { description: Request accepted }
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/auth/password-reset/confirm:
     post:
@@ -111,6 +121,10 @@ paths:
       responses:
         '200': { description: Password updated }
         '400': { description: Invalid or expired token }
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams:
     post:
@@ -130,6 +144,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Team'
         '409': { description: Global team name conflict }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/invitations:
     post:
@@ -150,6 +172,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invitation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     get:
       tags: [Invitations]
@@ -169,6 +199,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Invitation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/invitations/{invitationId}/retry-delivery:
     post:
@@ -180,6 +218,14 @@ paths:
       responses:
         '202': { description: Retry queued }
         '409': { description: Retry not allowed in current status }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/invitations/{invitationId}/accept:
     post:
@@ -190,6 +236,12 @@ paths:
       responses:
         '200': { description: Invitation accepted }
         '410': { description: Invitation expired }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/members/{userId}:
     delete:
@@ -200,7 +252,14 @@ paths:
         - $ref: '#/components/parameters/UserId'
       responses:
         '204': { description: Member removed }
-        '403': { description: Forbidden }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/ownership-transfer:
     post:
@@ -216,6 +275,14 @@ paths:
               $ref: '#/components/schemas/OwnershipTransferRequest'
       responses:
         '200': { description: Ownership transferred }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/tasks:
     get:
@@ -244,6 +311,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     post:
       tags: [Tasks]
@@ -263,6 +338,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/tasks/deleted:
     get:
@@ -283,6 +366,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/tasks/{taskId}:
     patch:
@@ -305,6 +396,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Task'
         '409': { description: Stale version conflict }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
     delete:
       tags: [Tasks]
@@ -314,6 +413,14 @@ paths:
         - $ref: '#/components/parameters/TaskId'
       responses:
         '204': { description: Task soft deleted }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /v1/teams/{teamId}/tasks/{taskId}/restore:
     post:
@@ -330,6 +437,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Task'
         '410': { description: Restore window expired }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
 components:
   securitySchemes:
@@ -337,6 +452,38 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Unauthorized - missing, invalid, or expired credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: Forbidden - authenticated but not authorized for this action
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ThrottledError:
+      description: Too many authentication attempts; retry after cooldown
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Unexpected internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
 
   parameters:
     TeamId:
@@ -361,6 +508,24 @@ components:
       schema: { $ref: '#/components/schemas/UserId' }
 
   schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message, correlationId]
+      properties:
+        code:
+          type: string
+          example: AUTH_UNAUTHORIZED
+        message:
+          type: string
+          example: Access token is missing or invalid.
+        details:
+          type: object
+          additionalProperties: true
+          nullable: true
+        correlationId:
+          type: string
+          example: req_01hrv6j6h7k3as0s5zqv4x9p1n
+
     UserId:
       type: string
       pattern: '^usr_[a-z0-9]+$'

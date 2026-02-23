@@ -46,9 +46,31 @@
 - [ ] T022 [P] Add CDK synth tests in `infrastructure/cdk/test/stacks.synth.test.ts`
 - [ ] T023 [P] Configure backend test harness and coverage gates in `backend/jest.config.ts`
 - [ ] T024 [P] Configure frontend test/e2e harness in `frontend/vitest.config.ts` and `frontend/playwright.config.ts`
-- [ ] T025 Configure CI quality gates (unit/integration/e2e/security/cdk synth) in `.github/workflows/ci.yml`
+- [ ] T025 Configure CI quality gates (unit/integration/e2e/security/cdk synth) in `.github/workflows/ci.yml` with blocking thresholds: business-logic unit coverage >=80%, required integration/e2e/security jobs green, and CDK synth job green
 
-**Checkpoint**: Foundation complete; user stories can proceed in parallel.
+**Checkpoint**: Foundation complete; user stories can proceed in parallel only when all T009-T025 tasks are complete and CI gates meet the documented blocking thresholds.
+
+### Phase 2 Traceability Map (T009-T025)
+
+| Task | Requirement Mapping |
+|------|---------------------|
+| T009 | FR-023 |
+| T010 | FR-021 |
+| T011 | FR-018, FND-003 |
+| T012 | FR-018, FND-003 |
+| T013 | FR-002, FND-001, FND-002 |
+| T014 | FR-006, FR-010 |
+| T015 | FND-001, FND-002 |
+| T016 | FR-014, FR-020 |
+| T017 | FR-015 |
+| T018 | FR-024 |
+| T019 | FR-024 |
+| T020 | FR-024 |
+| T021 | FR-024 |
+| T022 | FR-024, FND-004 |
+| T023 | FND-004 |
+| T024 | FND-004 |
+| T025 | FND-004, SC-006, SC-008 |
 
 ---
 

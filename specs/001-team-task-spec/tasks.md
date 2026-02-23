@@ -13,14 +13,14 @@
 
 **Purpose**: Initialize repository structure, toolchain, and baseline documentation.
 
-- [ ] T001 Create feature-first backend/frontend directory skeleton in `backend/src/features/`, `backend/src/shared/`, `frontend/src/features/`, and `frontend/src/shared/`
-- [ ] T002 Initialize backend TypeScript workspace in `backend/package.json`
-- [ ] T003 [P] Initialize frontend React + TypeScript workspace in `frontend/package.json`
-- [ ] T004 [P] Initialize CDK TypeScript workspace in `infrastructure/cdk/package.json`, `infrastructure/cdk/bin/app.ts`, and `infrastructure/cdk/lib/`
-- [ ] T005 [P] Configure root workspace scripts for lint/test/build/synth in `package.json`
-- [ ] T006 Configure TypeScript settings in `backend/tsconfig.json`, `frontend/tsconfig.json`, and `infrastructure/cdk/tsconfig.json`
-- [ ] T007 [P] Configure lint/format tools in `backend/.eslintrc.cjs`, `frontend/.eslintrc.cjs`, `infrastructure/cdk/.eslintrc.cjs`, and `.prettierrc`
-- [ ] T008 Create root README scaffold with required sections in `README.md`
+- [X] T001 Create feature-first backend/frontend directory skeleton in `backend/src/features/`, `backend/src/shared/`, `frontend/src/features/`, and `frontend/src/shared/`
+- [X] T002 Initialize backend TypeScript workspace in `backend/package.json`
+- [X] T003 [P] Initialize frontend React + TypeScript workspace in `frontend/package.json`
+- [X] T004 [P] Initialize CDK TypeScript workspace in `infrastructure/cdk/package.json`, `infrastructure/cdk/bin/app.ts`, and `infrastructure/cdk/lib/`
+- [X] T005 [P] Configure root workspace scripts for lint/test/build/synth in `package.json`
+- [X] T006 Configure TypeScript settings in `backend/tsconfig.json`, `frontend/tsconfig.json`, and `infrastructure/cdk/tsconfig.json`
+- [X] T007 [P] Configure lint/format tools in `backend/.eslintrc.cjs`, `frontend/.eslintrc.cjs`, `infrastructure/cdk/.eslintrc.cjs`, and `.prettierrc`
+- [X] T008 Create root README scaffold with required sections in `README.md`
 
 ---
 

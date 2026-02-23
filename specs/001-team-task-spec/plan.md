@@ -92,7 +92,7 @@ frontend/
     │   └── tasks/
     └── shared/
 
-infra/
+infrastructure/
 └── cdk/
     ├── bin/
     ├── lib/
@@ -102,8 +102,8 @@ README.md
 ```
 
 **Structure Decision**: Feature-first module layout is mandatory for application
-code; infrastructure is managed as versioned CDK stacks in `infra/cdk`; root
-`README.md` is mandatory and versioned with implementation changes.
+code; infrastructure is managed as versioned CDK stacks in `infrastructure/cdk`;
+root `README.md` is mandatory and versioned with implementation changes.
 
 ## Phase 0: Outline & Research
 

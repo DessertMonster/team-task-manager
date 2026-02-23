@@ -8,6 +8,7 @@
     "infrastructure/cdk"
   ],
   "scripts": {
+    "install:workspaces": "npm install --workspaces",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
@@ -16,7 +17,7 @@
     "format:write": "prettier --write ."
   },
   "devDependencies": {
-    "prettier": "^3.6.2"
+    "prettier": "^3.8.1"
   },
   "dependencies": {
     "aws-cdk": "^2.1106.1"

@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AuthStatus {
+  unverified
+  active
+  suspended
+}
+
+enum TeamRole {
+  owner
+  admin
+  member
+}
+
+enum InvitationStatus {
+  pending
+  accepted
+  expired
+  revoked
+}
+
+enum DeliveryStatus {
+  queued
+  sent
+  failed
+}
+
+enum TaskStatus {
+  open
+  in_progress
+  completed
+}
+
+enum AuditTargetType {
+  user
+  team
+  invitation
+  task
+  config
+}
+
+model User {
+  id                String   @id
+  email             String   @unique
+  displayName       String
+  avatarUrl         String?
+  timezone          String
+  authStatus        AuthStatus @default(unverified)
+  failedLoginCount  Int      @default(0)
+  lastFailedLoginAt DateTime?
+  lastLoginAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  ownedTeams        Team[]   @relation("TeamOwner")
+  memberships       TeamMembership[]
+  createdTasks      Task[]   @relation("TaskCreator")
+  assignedTasks     Task[]   @relation("TaskAssignee")
+}
+
+model Team {
+  id          String @id
+  name        String @unique
+  ownerUserId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User @relation("TeamOwner", fields: [ownerUserId], references: [id])
+  memberships TeamMembership[]
+  invitations Invitation[]
+  tasks       Task[]
+}
+
+model TeamMembership {
+  teamId    String
+  userId    String
+  role      TeamRole
+  joinedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  team Team @relation(fields: [teamId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([teamId, userId])
+  @@index([userId])
+}
+
+model Invitation {
+  id                    String @id
+  teamId                String
+  email                 String
+  invitedByUserId       String
+  status                InvitationStatus
+  deliveryStatus        DeliveryStatus
+  deliveryAttempts      Int @default(0)
+  lastDeliveryAttemptAt DateTime?
+  expiresAt             DateTime
+  createdAt             DateTime @default(now())
+  respondedAt           DateTime?
+
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@index([teamId, email, status])
+}
+
+model Task {
+  id               String @id
+  teamId           String
+  title            String
+  description      String?
+  status           TaskStatus @default(open)
+  createdByUserId  String
+  assignedToUserId String?
+  dueDate          DateTime?
+  completedAt      DateTime?
+  deletedAt        DateTime?
+  version          Int @default(1)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  team       Team @relation(fields: [teamId], references: [id])
+  createdBy  User @relation("TaskCreator", fields: [createdByUserId], references: [id])
+  assignedTo User? @relation("TaskAssignee", fields: [assignedToUserId], references: [id])
+
+  @@index([teamId, status])
+  @@index([teamId, deletedAt])
+}
+
+model AuditEvent {
+  id             String @id
+  actorUserId    String?
+  teamId         String?
+  eventType      String
+  targetType     AuditTargetType
+  targetId       String
+  metadata       Json?
+  occurredAt     DateTime
+  retentionUntil DateTime
+
+  @@index([retentionUntil])
+  @@index([teamId, occurredAt])
+}

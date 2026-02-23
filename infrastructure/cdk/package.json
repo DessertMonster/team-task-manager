@@ -5,19 +5,19 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "eslint --max-warnings=0 \"{bin,lib,test}/**/*.ts\"",
-    "test": "node -e \"console.log('No CDK tests configured yet')\"",
-    "synth": "cdk synth"
+    "test": "npm run build && node dist/test/stacks.synth.test.js",
+    "synth": "npm run build && cdk synth"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.239.0",
-    "constructs": "10.5.1"
+    "aws-cdk-lib": "^2.239.0",
+    "constructs": "^10.5.1"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
-    "@typescript-eslint/eslint-plugin": "8.56.0",
-    "@typescript-eslint/parser": "8.56.0",
-    "aws-cdk": "2.1106.1",
-    "eslint": "10.0.1",
-    "typescript": "5.9.3"
+    "@types/node": "^25.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "aws-cdk": "^2.1106.1",
+    "eslint": "^10.0.1",
+    "typescript": "^5.9.3"
   }
 }

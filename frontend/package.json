@@ -5,18 +5,22 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "eslint --max-warnings=0 \"src/**/*.{ts,tsx}\"",
-    "test": "node -e \"console.log('No frontend tests configured yet')\""
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^9.34.0",
-    "typescript": "^5.9.2"
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "@playwright/test": "^1.58.2",
+    "eslint": "^10.0.1",
+    "jsdom": "^28.1.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }

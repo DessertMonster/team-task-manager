@@ -30,23 +30,23 @@
 
 **⚠️ CRITICAL**: Complete this phase before user story phases.
 
-- [ ] T009 Implement shared prefixed CUID generator/validator in `backend/src/shared/ids/cuid.ts`
-- [ ] T010 [P] Implement UTC/timezone conversion helpers in `backend/src/shared/time/timezone.ts`
-- [ ] T011 Define initial Prisma schema in `backend/prisma/schema.prisma`
-- [ ] T012 [P] Create initial database migration in `backend/prisma/migrations/001_init/migration.sql`
-- [ ] T013 Implement Cognito auth middleware in `backend/src/shared/auth/cognitoAuth.ts`
-- [ ] T014 [P] Implement team-scoped RBAC middleware in `backend/src/shared/auth/authorization.ts`
-- [ ] T015 Implement API bootstrap and error handling in `backend/src/app.ts`
-- [ ] T016 [P] Implement audit logger and retention helper in `backend/src/shared/audit/auditLogger.ts`
-- [ ] T017 Implement optimistic concurrency guard in `backend/src/shared/concurrency/versionGuard.ts`
-- [ ] T018 [P] Implement CDK auth stack (Cognito) in `infrastructure/cdk/lib/auth-stack.ts`
-- [ ] T019 [P] Implement CDK app/API stack in `infrastructure/cdk/lib/app-stack.ts`
-- [ ] T020 [P] Implement CDK data/dependency stack wiring in `infrastructure/cdk/lib/data-stack.ts`
-- [ ] T021 Configure CDK app config/context in `infrastructure/cdk/cdk.json` and `infrastructure/cdk/lib/config.ts`
-- [ ] T022 [P] Add CDK synth tests in `infrastructure/cdk/test/stacks.synth.test.ts`
-- [ ] T023 [P] Configure backend test harness and coverage gates in `backend/jest.config.ts`
-- [ ] T024 [P] Configure frontend test/e2e harness in `frontend/vitest.config.ts` and `frontend/playwright.config.ts`
-- [ ] T025 Configure CI quality gates (unit/integration/e2e/security/cdk synth) in `.github/workflows/ci.yml` with blocking thresholds: business-logic unit coverage >=80%, required integration/e2e/security jobs green, and CDK synth job green
+- [X] T009 Implement shared prefixed CUID generator/validator in `backend/src/shared/ids/cuid.ts`
+- [X] T010 [P] Implement UTC/timezone conversion helpers in `backend/src/shared/time/timezone.ts`
+- [X] T011 Define initial Prisma schema in `backend/prisma/schema.prisma`
+- [X] T012 [P] Create initial database migration in `backend/prisma/migrations/001_init/migration.sql`
+- [X] T013 Implement Cognito auth middleware in `backend/src/shared/auth/cognitoAuth.ts`
+- [X] T014 [P] Implement team-scoped RBAC middleware in `backend/src/shared/auth/authorization.ts`
+- [X] T015 Implement API bootstrap and error handling in `backend/src/app.ts`
+- [X] T016 [P] Implement audit logger and retention helper in `backend/src/shared/audit/auditLogger.ts`
+- [X] T017 Implement optimistic concurrency guard in `backend/src/shared/concurrency/versionGuard.ts`
+- [X] T018 [P] Implement CDK auth stack (Cognito) in `infrastructure/cdk/lib/auth-stack.ts`
+- [X] T019 [P] Implement CDK app/API stack in `infrastructure/cdk/lib/app-stack.ts`
+- [X] T020 [P] Implement CDK data/dependency stack wiring in `infrastructure/cdk/lib/data-stack.ts`
+- [X] T021 Configure CDK app config/context in `infrastructure/cdk/cdk.json` and `infrastructure/cdk/lib/config.ts`
+- [X] T022 [P] Add CDK synth tests in `infrastructure/cdk/test/stacks.synth.test.ts`
+- [X] T023 [P] Configure backend test harness and coverage gates in `backend/jest.config.ts`
+- [X] T024 [P] Configure frontend test/e2e harness in `frontend/vitest.config.ts` and `frontend/playwright.config.ts`
+- [X] T025 Configure CI quality gates (unit/integration/e2e/security/cdk synth) in `.github/workflows/ci.yml` with blocking thresholds: business-logic unit coverage >=80%, required integration/e2e/security jobs green, and CDK synth job green
 
 **Checkpoint**: Foundation complete; user stories can proceed in parallel only when all T009-T025 tasks are complete and CI gates meet the documented blocking thresholds.
 

@@ -13,14 +13,14 @@
 
 **Purpose**: Initialize repository structure, toolchain, and baseline documentation.
 
-- [ ] T001 Create feature-first backend/frontend directory skeleton in `backend/src/features/`, `backend/src/shared/`, `frontend/src/features/`, and `frontend/src/shared/`
-- [ ] T002 Initialize backend TypeScript workspace in `backend/package.json`
-- [ ] T003 [P] Initialize frontend React + TypeScript workspace in `frontend/package.json`
-- [ ] T004 [P] Initialize CDK TypeScript workspace in `infra/cdk/package.json`, `infra/cdk/bin/app.ts`, and `infra/cdk/lib/`
-- [ ] T005 [P] Configure root workspace scripts for lint/test/build/synth in `package.json`
-- [ ] T006 Configure TypeScript settings in `backend/tsconfig.json`, `frontend/tsconfig.json`, and `infra/cdk/tsconfig.json`
-- [ ] T007 [P] Configure lint/format tools in `backend/.eslintrc.cjs`, `frontend/.eslintrc.cjs`, `infra/cdk/.eslintrc.cjs`, and `.prettierrc`
-- [ ] T008 Create root README scaffold with required sections in `README.md`
+- [X] T001 Create feature-first backend/frontend directory skeleton in `backend/src/features/`, `backend/src/shared/`, `frontend/src/features/`, and `frontend/src/shared/`
+- [X] T002 Initialize backend TypeScript workspace in `backend/package.json`
+- [X] T003 [P] Initialize frontend React + TypeScript workspace in `frontend/package.json`
+- [X] T004 [P] Initialize CDK TypeScript workspace in `infrastructure/cdk/package.json`, `infrastructure/cdk/bin/app.ts`, and `infrastructure/cdk/lib/`
+- [X] T005 [P] Configure root workspace scripts for lint/test/build/synth in `package.json`
+- [X] T006 Configure TypeScript settings in `backend/tsconfig.json`, `frontend/tsconfig.json`, and `infrastructure/cdk/tsconfig.json`
+- [X] T007 [P] Configure lint/format tools in `backend/.eslintrc.cjs`, `frontend/.eslintrc.cjs`, `infrastructure/cdk/.eslintrc.cjs`, and `.prettierrc`
+- [X] T008 Create root README scaffold with required sections in `README.md`
 
 ---
 
@@ -39,11 +39,11 @@
 - [ ] T015 Implement API bootstrap and error handling in `backend/src/app.ts`
 - [ ] T016 [P] Implement audit logger and retention helper in `backend/src/shared/audit/auditLogger.ts`
 - [ ] T017 Implement optimistic concurrency guard in `backend/src/shared/concurrency/versionGuard.ts`
-- [ ] T018 [P] Implement CDK auth stack (Cognito) in `infra/cdk/lib/auth-stack.ts`
-- [ ] T019 [P] Implement CDK app/API stack in `infra/cdk/lib/app-stack.ts`
-- [ ] T020 [P] Implement CDK data/dependency stack wiring in `infra/cdk/lib/data-stack.ts`
-- [ ] T021 Configure CDK app config/context in `infra/cdk/cdk.json` and `infra/cdk/lib/config.ts`
-- [ ] T022 [P] Add CDK synth tests in `infra/cdk/test/stacks.synth.test.ts`
+- [ ] T018 [P] Implement CDK auth stack (Cognito) in `infrastructure/cdk/lib/auth-stack.ts`
+- [ ] T019 [P] Implement CDK app/API stack in `infrastructure/cdk/lib/app-stack.ts`
+- [ ] T020 [P] Implement CDK data/dependency stack wiring in `infrastructure/cdk/lib/data-stack.ts`
+- [ ] T021 Configure CDK app config/context in `infrastructure/cdk/cdk.json` and `infrastructure/cdk/lib/config.ts`
+- [ ] T022 [P] Add CDK synth tests in `infrastructure/cdk/test/stacks.synth.test.ts`
 - [ ] T023 [P] Configure backend test harness and coverage gates in `backend/jest.config.ts`
 - [ ] T024 [P] Configure frontend test/e2e harness in `frontend/vitest.config.ts` and `frontend/playwright.config.ts`
 - [ ] T025 Configure CI quality gates (unit/integration/e2e/security/cdk synth) in `.github/workflows/ci.yml`
@@ -150,14 +150,14 @@
 - [ ] T069 Add performance instrumentation for p95 targets in `backend/src/shared/observability/performanceMetrics.ts`
 - [ ] T070 [P] Add security regression tests for authz and input sanitization in `backend/tests/integration/security/security-regressions.integration.test.ts`
 - [ ] T071 Validate audit retention pruning behavior in `backend/src/shared/audit/auditRetentionJob.ts`
-- [ ] T072 [P] Add CDK deployment script and environment notes in `infra/cdk/scripts/deploy.sh` and `infra/cdk/README.md`
+- [ ] T072 [P] Add CDK deployment script and environment notes in `infrastructure/cdk/scripts/deploy.sh` and `infrastructure/cdk/README.md`
 - [ ] T073 [P] Write full developer/project README content in `README.md`
 - [ ] T074 Validate README instructions end-to-end on clean environment and record timings in `docs/validation/readme-onboarding-validation.md`
 - [ ] T075 Run quickstart validation and capture final results in `/Users/dessertmonster/src/team-task-manager/specs/001-team-task-spec/quickstart.md`
 - [ ] T076 Capture final p95 evidence in `docs/validation/performance-evidence.md`
 - [ ] T077 Implement API health endpoint for deployment smoke checks in `backend/src/shared/api/healthRoute.ts`
-- [ ] T078 [P] Add CDK stack outputs for `frontendUrl` and `apiBaseUrl` in `infra/cdk/lib/app-stack.ts`
-- [ ] T079 [P] Implement deployment URL smoke-check script in `infra/cdk/scripts/smoke-check-urls.sh`
+- [ ] T078 [P] Add CDK stack outputs for `frontendUrl` and `apiBaseUrl` in `infrastructure/cdk/lib/app-stack.ts`
+- [ ] T079 [P] Implement deployment URL smoke-check script in `infrastructure/cdk/scripts/smoke-check-urls.sh`
 - [ ] T080 Integrate URL smoke checks into deployment workflow in `.github/workflows/ci.yml`
 - [ ] T081 Capture deployment URL verification evidence in `docs/validation/deployment-url-evidence.md`
 - [ ] T082 [P] Implement uptime SLI/SLO instrumentation and availability metric export in `backend/src/shared/observability/availabilityMetrics.ts`

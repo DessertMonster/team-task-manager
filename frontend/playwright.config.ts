@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
+  testMatch: '**/*.e2e.ts',
   retries: 0,
   use: {
     baseURL: process.env.FRONTEND_BASE_URL ?? 'http://localhost:5173',

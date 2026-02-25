@@ -5,13 +5,15 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "eslint --max-warnings=0 \"src/**/*.ts\"",
-    "test": "node -e \"console.log('No backend tests configured yet')\""
+    "test": "vitest run --passWithNoTests --config vitest.config.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^9.34.0",
-    "typescript": "^5.9.2"
+    "@types/node": "^25.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "eslint": "^10.0.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
+    "@vitest/coverage-v8": "^4.0.18"
   }
 }

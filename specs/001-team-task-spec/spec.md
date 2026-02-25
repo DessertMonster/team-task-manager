@@ -140,9 +140,12 @@ transfer ownership, and confirm permissions update correctly.
 - **FR-001**: System MUST allow users to register accounts and verify account ownership
   before first sign-in.
 - **FR-002**: System MUST allow authenticated users to sign in, sign out, and recover
-  access with time-limited reset links.
+  access with time-limited reset links, and protected API requests MUST validate JWT
+  issuer, audience, expiration, and required subject/team claims before authorization.
 - **FR-003**: System MUST enforce temporary sign-in throttling after repeated failed
-  authentication attempts.
+  authentication attempts using explicit thresholds: lock after 5 consecutive failures
+  within 15 minutes, apply a 15-minute cooldown, and reset the counter after either a
+  successful login or 15 minutes without additional failures.
 - **FR-004**: System MUST allow authorized users to create teams with names unique across
   the entire system.
 - **FR-005**: System MUST allow team admins to invite users by email and set invitation
@@ -155,14 +158,16 @@ transfer ownership, and confirm permissions update correctly.
 - **FR-009**: System MUST allow authorized users to update task status and mark tasks as
   completed with recorded completion time.
 - **FR-010**: System MUST enforce task edit/delete permissions so only authorized users
-  can modify tasks.
+  can modify tasks, and Phase 2 shared authorization middleware MUST define an
+  operation-level role matrix for protected team/task operations.
 - **FR-011**: System MUST allow users to filter task lists by assignee and status.
 - **FR-012**: System MUST propagate task updates so that at least 95% of updates are
   visible to other active team members in under 2 seconds.
 - **FR-013**: System MUST support responsive task workflows on mobile, tablet, and desktop
   layouts from one web experience.
 - **FR-014**: System MUST maintain an auditable record of authentication attempts, task
-  lifecycle changes, and membership changes.
+  lifecycle changes, membership changes, authorization denials, and privileged
+  configuration/deployment actions.
 - **FR-015**: System MUST reject stale task update attempts when a newer version exists
   and require the user to refresh before retrying the update.
 - **FR-016**: System MUST require explicit user confirmation before synchronizing queued
@@ -175,7 +180,9 @@ transfer ownership, and confirm permissions update correctly.
   fails, retry delivery, and expose invitation delivery status to authorized admins.
 - **FR-020**: System MUST retain audit events for 1 year from event creation.
 - **FR-021**: System MUST store timestamps in UTC and present due dates and timestamps in
-  each user's local timezone in the interface.
+  each user's local timezone in the interface; invalid timezone identifiers MUST be
+  rejected with a validation error and DST-boundary conversions MUST preserve the
+  original instant in UTC.
 - **FR-022**: System MUST exclude deleted tasks from normal task lists and filters and
   provide a dedicated Recently Deleted view for restore operations.
 - **FR-023**: System MUST use prefixed CUID identifiers for all primary entities
@@ -192,6 +199,21 @@ transfer ownership, and confirm permissions update correctly.
   published frontend URL and API health endpoint before marking deployment successful.
 - **FR-028**: System MUST capture and retain monthly availability evidence showing
   uptime against the 99.5% target, including incident and recovery timestamps.
+
+### Phase 2 Foundational Requirement Details
+
+- **FND-001**: Protected endpoints MUST return a canonical error envelope with fields
+  `code`, `message`, optional `details`, and `correlationId` for authn/authz/validation/
+  conflict/internal failures.
+- **FND-002**: Foundational API error taxonomy MUST include and document `401` (authn),
+  `403` (authz), `422` (validation), `409` (conflict), and `500` (internal).
+- **FND-003**: Phase 2 MUST define rollback/mitigation requirements for partial failures,
+  including migration-success/app-bootstrap-failure and migration-failure scenarios.
+- **FND-004**: CI quality gates are blocking for Phase 2 completion: unit coverage >=80%
+  for business logic, integration suite pass, e2e suite pass, security regression suite
+  pass, and CDK synth pass.
+- **FND-005**: Phase 2 documentation MUST include a task-to-requirement traceability map
+  covering tasks T009 through T025 to functional requirements and success criteria.
 
 ### Assumptions
 

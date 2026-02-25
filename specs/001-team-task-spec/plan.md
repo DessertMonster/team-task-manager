@@ -16,7 +16,7 @@ smoke checks confirm both endpoints are reachable.
 **Language/Version**: TypeScript (latest) on Node.js 24.12.0 for backend Lambdas; TypeScript (latest) for React frontend; TypeScript for CDK IaC  
 **Primary Dependencies**: AWS Lambda runtime, React, Prisma ORM, Amazon Cognito, AWS CDK (TypeScript), CUID2-compatible ID generator  
 **Storage**: PostgreSQL (primary relational datastore)  
-**Testing**: Unit tests (business logic >=80% coverage), integration tests (all API endpoints), end-to-end tests (critical flows + restore/conflict/ID validation), infrastructure synth checks  
+**Testing**: Blocking gates for foundational readiness: unit tests (business logic >=80% coverage), integration tests (all API endpoints) pass, end-to-end tests (critical flows + restore/conflict/ID validation) pass, security regression checks pass, and infrastructure CDK synth checks pass  
 **Target Platform**: Responsive web app on modern desktop/mobile browsers with AWS deployment  
 **Project Type**: web  
 **Performance Goals**: p95 interactive actions <1s; page-load p95 <2s; API p95 <500ms; task update propagation <2s for active collaborators  

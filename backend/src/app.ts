@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { buildAuthContext } from './shared/auth/cognitoAuth';
 import { StaleVersionError } from './shared/concurrency/versionGuard';
+import { handleTaskRoutes } from './features/tasks/api/taskRoutes';
 
 type ApiError = {
   code: string;
@@ -62,7 +63,11 @@ async function requestHandler(req: IncomingMessage, res: ServerResponse): Promis
     }
 
     if (req.url?.startsWith('/v1/') && req.url !== '/v1/health') {
-      buildAuthContext(req.headers);
+      const authContext = buildAuthContext(req.headers);
+      const handled = await handleTaskRoutes(req, res, authContext);
+      if (handled) {
+        return;
+      }
     }
 
     json(res, 404, {

@@ -82,20 +82,20 @@
 
 ### Tests for User Story 1
 
-- [ ] T026 [P] [US1] Add contract test for `GET/POST /v1/teams/{teamId}/tasks` in `backend/tests/contract/tasks/list-create.contract.test.ts`
-- [ ] T027 [P] [US1] Add contract test for `PATCH/DELETE /v1/teams/{teamId}/tasks/{taskId}` in `backend/tests/contract/tasks/update-delete.contract.test.ts`
-- [ ] T028 [P] [US1] Add contract test for deleted/restore endpoints in `backend/tests/contract/tasks/restore-deleted.contract.test.ts`
-- [ ] T029 [P] [US1] Add integration test for stale-version conflict handling in `backend/tests/integration/tasks/concurrency.integration.test.ts`
-- [ ] T030 [P] [US1] Add integration test for deleted-task visibility rules in `backend/tests/integration/tasks/deleted-view.integration.test.ts`
-- [ ] T031 [P] [US1] Add e2e test for task lifecycle and restore in `frontend/tests/e2e/tasks/task-lifecycle-restore.e2e.ts`
+- [X] T026 [P] [US1] Add contract test for `GET/POST /v1/teams/{teamId}/tasks` in `backend/tests/contract/tasks/list-create.contract.test.ts`
+- [X] T027 [P] [US1] Add contract test for `PATCH/DELETE /v1/teams/{teamId}/tasks/{taskId}` in `backend/tests/contract/tasks/update-delete.contract.test.ts`
+- [X] T028 [P] [US1] Add contract test for deleted/restore endpoints in `backend/tests/contract/tasks/restore-deleted.contract.test.ts`
+- [X] T029 [P] [US1] Add integration test for stale-version conflict handling in `backend/tests/integration/tasks/concurrency.integration.test.ts`
+- [X] T030 [P] [US1] Add integration test for deleted-task visibility rules in `backend/tests/integration/tasks/deleted-view.integration.test.ts`
+- [X] T031 [P] [US1] Add e2e test for task lifecycle and restore in `frontend/tests/e2e/tasks/task-lifecycle-restore.e2e.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T032 [P] [US1] Implement task domain model in `backend/src/features/tasks/domain/task.ts`
-- [ ] T033 [P] [US1] Implement task repository in `backend/src/features/tasks/data/taskRepository.ts`
-- [ ] T034 [US1] Implement task service in `backend/src/features/tasks/application/taskService.ts`
-- [ ] T035 [US1] Implement task routes/controllers in `backend/src/features/tasks/api/taskRoutes.ts`
-- [ ] T036 [US1] Implement task ID validation and request schemas in `backend/src/features/tasks/api/taskValidators.ts`
+- [X] T032 [P] [US1] Implement task domain model in `backend/src/features/tasks/domain/task.ts`
+- [X] T033 [P] [US1] Implement task repository in `backend/src/features/tasks/data/taskRepository.ts`
+- [X] T034 [US1] Implement task service in `backend/src/features/tasks/application/taskService.ts`
+- [X] T035 [US1] Implement task routes/controllers in `backend/src/features/tasks/api/taskRoutes.ts`
+- [X] T036 [US1] Implement task ID validation and request schemas in `backend/src/features/tasks/api/taskValidators.ts`
 - [ ] T037 [P] [US1] Implement frontend task API client in `frontend/src/features/tasks/services/taskApi.ts`
 - [ ] T038 [US1] Implement task board/filter UI in `frontend/src/features/tasks/ui/TaskBoard.tsx`
 - [ ] T039 [US1] Implement Recently Deleted UI with restore in `frontend/src/features/tasks/ui/RecentlyDeletedView.tsx`

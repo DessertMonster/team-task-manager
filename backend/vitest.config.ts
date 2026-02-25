@@ -5,6 +5,7 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],
     coverage: {
+      enabled: true,
       provider: 'v8',
       reporter: ['text', 'lcov'],
       thresholds: {

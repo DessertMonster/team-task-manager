@@ -9,7 +9,7 @@
     "synth": "npm run build && cdk synth"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.239.0",
+    "aws-cdk-lib": "^2.240.0",
     "constructs": "^10.5.1"
   },
   "devDependencies": {
